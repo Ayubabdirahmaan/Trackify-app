@@ -6,6 +6,10 @@ import mongoose from "mongoose";
 dotenv.config();
 const PORT = process.env.PORT;
 app.use(express.json());
+
+app.use(cors({
+  origin : 'http://localhost:5173/'
+}))
 app.get("/", (req, res) => {
   res.json("this is finanace app, good afternoon");
 });
