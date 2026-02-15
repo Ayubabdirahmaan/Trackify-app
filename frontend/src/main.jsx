@@ -6,12 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import {
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query/build/legacy";
-import { QueryClient } from "node_modules/@tanstack/react-query/build/legacy";
+} from "@tanstack/react-query";
 
-const QueryClient = new QueryClient({
+const queryClient = new QueryClient({
   defaultOption: {
-    query: {
+    Query: {
       stalTime: 60 * 1000,
     },
   },
@@ -19,7 +18,7 @@ const QueryClient = new QueryClient({
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <QueryClientProvider client={QueryClient}>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
