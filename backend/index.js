@@ -10,6 +10,8 @@ const PORT = process.env.PORT;
 
 import registerUser from "./routes/userAuth.js";
 import loginUser from "./routes/userAuth.js";
+import userAuth from './routes/userProfile.js'
+import adminRoute from './routes/admin.js'
 
 app.use(express.json());
 
@@ -21,6 +23,8 @@ app.use(
 
 app.use("/api/users", registerUser);
 app.use("/api/users", loginUser);
+app.use('/api/users', userAuth)
+app.use('/api/admin', adminRoute)
 
 app.get("/", (req, res) => {
   res.json("this is finanace app, good afternoon");
