@@ -9,6 +9,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 import registerUser from "./routes/userAuth.js";
+import allUsers from './routes/allUsers.js'
 import loginUser from "./routes/userAuth.js";
 import userAuth from './routes/userProfile.js'
 import adminRoute from './routes/admin.js'
@@ -20,11 +21,14 @@ app.use(
     origin: "http://localhost:5173",
   }),
 );
-
 app.use("/api/users", registerUser);
+
 app.use("/api/users", loginUser);
 app.use('/api/users', userAuth)
 app.use('/api/admin', adminRoute)
+app.use('/api/user', allUsers)
+
+
 
 app.get("/", (req, res) => {
   res.json("this is finanace app, good afternoon");
