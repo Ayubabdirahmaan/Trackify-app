@@ -9,16 +9,18 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 import registerUser from "./routes/userAuth.js";
+import loginUser from "./routes/userAuth.js";
 
 app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5173/",
+    origin: "http://localhost:5173",
   }),
 );
 
-app.use("/api/register", registerUser);
+app.use("/api/users", registerUser);
+app.use("/api/users", loginUser);
 
 app.get("/", (req, res) => {
   res.json("this is finanace app, good afternoon");
