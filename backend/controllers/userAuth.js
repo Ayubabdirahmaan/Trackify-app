@@ -18,7 +18,7 @@ export const register = async (req, res, next) => {
 
       req.status(201).json({ token });
     }
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
