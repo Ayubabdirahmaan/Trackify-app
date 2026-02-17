@@ -13,17 +13,17 @@ export const LadingPage = () => {
           <div>
             <img src={logoTracker} className="w-20 h-20" alt="" />
           </div>
-          <div className="text-xl font-semibold text-primary cursor-pointer ">
+          <div className="text-2xl font-semibold text-primary cursor-pointer ">
             Trackify-app
           </div>
         </div>
         {/* singIn */}
         <div>
           <Link
-            to="/signin"
+            to="/login"
             className="bg-primary text-secondary p-3 w-10 h-10 rounded mt-2"
           >
-            SignIn
+            Sign In
           </Link>
         </div>
       </header>
