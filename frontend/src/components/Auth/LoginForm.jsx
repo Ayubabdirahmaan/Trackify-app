@@ -100,7 +100,7 @@ export const LoginForm = () => {
             <CardFooter className={"flex justify-center pt-0"}>
               <div className="text-center text-sm">
                 Don't have an account ?
-                <a onClick={() => navigate("/register")}>Sign up</a>
+                <a className="cursor-pointer" onClick={() => navigate("/register")}> Sign up</a>
               </div>
             </CardFooter>
           </div>

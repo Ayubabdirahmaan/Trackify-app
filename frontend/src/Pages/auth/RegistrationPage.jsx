@@ -1,7 +1,31 @@
+import { RegistrationFoarm } from '@/components/Auth/registrationFoarm'
 import React from 'react'
+import logoTracker from "../auth/logoTracker.svg";
+import { Link } from "react-router-dom";
 
 export const RegistrationPage = () => {
   return (
-    <div>RegistrationPage</div>
+    <>
+      <div className="max-w-7xl mx-auto">
+        {/* header section */}
+        <div className="flex items-center mt-10">
+          <img src={logoTracker} className="w-10 h-10" alt="" />
+          <Link to={"/"} className="text-primary text-2xl font-semibold">
+            Trackify-app
+          </Link>
+        </div>
+      </div>
+      {/* login section */}
+      <div className="min-h-screen flex flex-col justify-center items-center bg-background ">
+        <div className="z-10 w-full max-w-md px-4">
+          <div className="mb-8 text-center">
+              <h1 className="text-3xl font-bold text-foreground">Jion us today</h1>
+               <p>Create an account in just a few step</p>
+          </div>
+          <RegistrationFoarm />
+        </div>
+      
+      </div>
+    </>
   )
 }
