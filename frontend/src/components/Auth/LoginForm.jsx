@@ -11,16 +11,53 @@ import { Input } from "../ui/input";
 
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 export const LoginForm = () => {
   const [formValues, setFoarmValues] = useState({
     email: "",
     password: "",
   });
-
-  const handleInputChange = () => {};
-
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFoarmValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+  const loginMutaution = useMutation({
+    mutationFn: async (Credential) => {
+      const response = await axios.post('http//localhost:2000/users/login', Credential);
+      console.log(response.data)
+      return response.data;
+    },
+    onSuccess: () => {
+      console.log("successfully login");
+    },
+    onError: (error) => {
+      console.log("this user not login",error);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setError(null)
+
+    if(!formValues.email || !formValues.password) {
+       console.log('all fields are required')
+       return
+    }
+    loginMutaution.mutate({
+      email: formValues.email,
+      password: formValues.password
+    })
+  }
+
   return (
     <Card className={"rounded-md w-full border-border "}>
       <CardHeader className={"space-y-1 pb-4"}>
@@ -28,7 +65,7 @@ export const LoginForm = () => {
         <CardDescription className={"text-center"}>
           <p>Enter your credentails to access your accont</p>
         </CardDescription>
-        <form>
+        <form onSubmit={handleSubmit}>
           <CardContent>
             <div className="space-y-2 pt-0">
               <div className="text-sm font-medium text-left">Email</div>
@@ -54,7 +91,7 @@ export const LoginForm = () => {
             </div>
 
             <div className="py-4">
-              <Button type="submit" className="rounded-md">
+              <Button type="submit" className="text-center">
                 login account
               </Button>
             </div>
