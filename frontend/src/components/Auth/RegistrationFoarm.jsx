@@ -19,7 +19,7 @@ export const RegistrationFoarm = () => {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
   const createUserAccount = useMutation({
     mutationFn: async (userData) => {
@@ -32,9 +32,10 @@ export const RegistrationFoarm = () => {
     },
     onSuccess: (data) => {
       console.log("successfully", data);
+      toast.success('Creation accont successfully')
     },
     onError: (error) => {
-        // toast.error(error)
+      // toast.error(error)
       console.log("this user not create", error);
     },
   });
@@ -57,6 +58,8 @@ export const RegistrationFoarm = () => {
 
     if (formValues.password !== formValues.confirmPassword) {
       console.log("passowds not mutch");
+      toast.error('passwords dont much')
+      return;
     }
 
     createUserAccount.mutate({
@@ -81,7 +84,11 @@ export const RegistrationFoarm = () => {
       <form onSubmit={handleAdd}>
         <CardContent>
           <div className="spac-y-6">
-            {<p>{error}</p>}
+            {error && (
+              <p className="text-center text-sm text-primary bg-secondary p-2">
+                {error}
+              </p>
+            )}
             <div className="font-semibold text-sm">Full Name</div>
             <Input
               name="name"
