@@ -8,9 +8,6 @@ export const MessageErrorUttils = (error) => {
     if (data.error && Array.isArray(data.error)) {
       return data.error.map((err) => err.message).join(" , ");
     }
-
-     
-
     if (data.error) {
       return data.error;
     }

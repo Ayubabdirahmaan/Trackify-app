@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
@@ -13,7 +14,7 @@ import { toast } from "sonner";
 import api from "@/lib/api/apiCleints";
 import { MessageErrorUttils } from "@/utils/errorUtils";
 import { useNavigate } from "react-router-dom";
-
+import { Loader } from "lucide-react";
 
 export const RegistrationFoarm = () => {
   const [formValues, setFormValues] = useState({
@@ -23,7 +24,7 @@ export const RegistrationFoarm = () => {
     confirmPassword: "",
   });
 
-        const Navigate = useNavigate()
+  const Navigate = useNavigate();
   const [error, setError] = useState(null);
 
   const createUserAccount = useMutation({
@@ -35,10 +36,10 @@ export const RegistrationFoarm = () => {
     onSuccess: (data) => {
       console.log("successfully", data);
       toast.success("Creation accont successfully");
-      Navigate('/login')
+      Navigate("/login");
     },
     onError: (error) => {
-      setError(MessageErrorUttils(error))
+      setError(MessageErrorUttils(error));
     },
   });
   const handleChange = (e) => {
@@ -132,9 +133,25 @@ export const RegistrationFoarm = () => {
             />
           </div>
           <div className="py-5 flex justify-center">
-            <Button className={"w-full"}>Create Account</Button>
+            <Button className={"w-full"}>
+              {createUserAccount.isPending ? (
+                <span className="flex items-center gap-3">
+                  <Loader /> Creating Account...
+                </span>
+              ) : (
+                "Create Account "
+              )}
+            </Button>
           </div>
         </CardContent>
+        <div>
+          <CardFooter className="flex justify-center pt-0">
+            <div className="text-center text-sm">
+              Already have Account?
+              <a className="cursor-pointer" onClick={() => Navigate("/login")}>sign In</a>
+            </div>
+          </CardFooter>
+        </div>
       </form>
     </Card>
   );
