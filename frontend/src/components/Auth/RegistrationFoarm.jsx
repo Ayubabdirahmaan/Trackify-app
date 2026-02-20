@@ -9,8 +9,11 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { toast } from "sonner";
+import api from "@/lib/api/apiCleints";
+import { MessageErrorUttils } from "@/utils/errorUtils";
+import { useNavigate } from "react-router-dom";
+
 
 export const RegistrationFoarm = () => {
   const [formValues, setFormValues] = useState({
@@ -19,24 +22,23 @@ export const RegistrationFoarm = () => {
     password: "",
     confirmPassword: "",
   });
+
+        const Navigate = useNavigate()
   const [error, setError] = useState(null);
 
   const createUserAccount = useMutation({
     mutationFn: async (userData) => {
-      const respose = await axios.post(
-        "http://localhost:2000/api/users/register",
-        userData,
-      );
-      console.log(respose.data);
-      return respose.data;
+      const response = await api.post("/users/register", userData);
+      console.log(response.data);
+      return response.data;
     },
     onSuccess: (data) => {
       console.log("successfully", data);
-      toast.success('Creation accont successfully')
+      toast.success("Creation accont successfully");
+      Navigate('/login')
     },
     onError: (error) => {
-      // toast.error(error)
-      console.log("this user not create", error);
+      setError(MessageErrorUttils(error))
     },
   });
   const handleChange = (e) => {
@@ -58,7 +60,7 @@ export const RegistrationFoarm = () => {
 
     if (formValues.password !== formValues.confirmPassword) {
       console.log("passowds not mutch");
-      toast.error('passwords dont much')
+      toast.error(`Passwords don't mutch`);
       return;
     }
 
