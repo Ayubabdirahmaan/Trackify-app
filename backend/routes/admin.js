@@ -3,7 +3,7 @@ import { protect } from '../middlewares/AuthMiddleWare.js'
 import { authorize } from '../middlewares/authorized.js'
 const router = express.Router()
 
-router.get('/dashboard', protect, authorize('admin'), (req, res) => {
+router.get('/dashboard', protect, authorize('user'), (req, res) => {
         res.json({
             message: `welcome to special route ${req.user.name}`
         })
