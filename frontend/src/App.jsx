@@ -16,7 +16,7 @@ function App() {
           element={
             <ProtectRoute>
               <Dashboard />
-            </ProtectRoute>
+           </ProtectRoute>
           }
         />
         <Route path="/" element={<LadingPage />} />

@@ -9,10 +9,9 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import api from "@/lib/api/apiCleints";
 import useAuthStore from "@/lib/store/authStore";
 
@@ -40,12 +39,12 @@ export const LoginForm = () => {
       console.log(response.data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       if (data.token) {
-        const user = data.user;
-        const token = data.token;
-        setAuth(user, token);
-        navigate("/Dashboard");
+       const user = data.user;
+       const token = data.token;
+       setAuth(user, token)
+        navigate("/dashboard");
       }
     },
     onError: (error) => {

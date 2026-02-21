@@ -3,13 +3,12 @@ import useAuthStore from "@/lib/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 
 export const ProtectRoute = ({ children }) => {
   const { user, token, setAuth, clearAuth } = useAuthStore();
 
   const location = useLocation();
-  const Navigate = useNavigate();
 
   const { data, error, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["currentUser"],
@@ -25,12 +24,11 @@ export const ProtectRoute = ({ children }) => {
       }
       return response.data;
     },
-    enabled: !token,
     retry: 1,
   });
 
   if (!token) {
-    return  <Navigate to="" />
+    return  <Navigate to={'/login'} state={{from: location}} replace />
   }
   // error case
 
