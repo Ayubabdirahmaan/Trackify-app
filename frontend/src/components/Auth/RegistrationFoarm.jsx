@@ -148,7 +148,9 @@ export const RegistrationFoarm = () => {
           <CardFooter className="flex justify-center pt-0">
             <div className="text-center text-sm">
               Already have Account?
-              <a className="cursor-pointer" onClick={() => Navigate("/login")}>sign In</a>
+              <a className="cursor-pointer" onClick={() => Navigate("/login")}>
+                sign In
+              </a>
             </div>
           </CardFooter>
         </div>
