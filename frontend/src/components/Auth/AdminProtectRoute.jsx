@@ -3,24 +3,23 @@ import useAuthStore from "@/lib/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React, { useEffect } from "react";
-import { useLocation, Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
-export const ProtectRoute = ({ children }) => {
-  const { user, token, setAuth, clearAuth } = useAuthStore();
-
+export const AdminProtectRoute = ({ children }) => {
+  const { token, user, clearAuth, setAuth } = useAuthStore();
   const location = useLocation();
 
-  const { data, error, isLoading, isError, isSuccess } = useQuery({
+  const { data, error, isError, isLoading, isSuccess } = useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
-      const response = await api.get("/users/profile", {
+      const response = await api.get("/admin/dashboard", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (!response.data) {
-        throw new Error("invalid token");
+        throw new Error("Invalid token");
       }
       return response.data;
     },
@@ -28,10 +27,8 @@ export const ProtectRoute = ({ children }) => {
   });
 
   if (!token) {
-    return <Navigate to={"/login"} state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
-  // error case
-
   useEffect(() => {
     if (isError && data) {
       clearAuth();
@@ -43,13 +40,23 @@ export const ProtectRoute = ({ children }) => {
   }, [isSuccess, data, setAuth, token]);
 
   if (isLoading) {
+  return (
     <div className="flex h-screen justify-center items-center">
       <Loader className="animate-spin" />
-    </div>;
-  }
-  if (isError) {
-    return <Navigate to={"/login"} state={{ from: location }} replace />;
-  }
+    </div>
+  );
+}
 
-  return children;
+if (isError) {
+  return <Navigate to="/login" state={{ from: location }} replace />;
+}
+
+if (user?.role != "user") {
+  return <Navigate to={"/dashbaord"} state={{ from: location }} replace />;
+}
+console.log("userInfo", user);
+
+return children;
+
 };
+

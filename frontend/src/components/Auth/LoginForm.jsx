@@ -44,7 +44,7 @@ export const LoginForm = () => {
        const user = data.user;
        const token = data.token;
        setAuth(user, token)
-        navigate("/dashboard");
+        navigate("/dashboard ");
       }
     },
     onError: (error) => {

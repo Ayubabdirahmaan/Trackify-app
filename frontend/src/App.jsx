@@ -4,6 +4,8 @@ import { LoginPage } from "./Pages/auth/LoginPage";
 import { RegistrationPage } from "./Pages/auth/RegistrationPage";
 import { Dashboard } from "./Pages/Dashboard/Dashboard";
 import { ProtectRoute } from "./components/Auth/protectRoute";
+import { Admin } from "./Pages/Dashboard/Admin";
+import { AdminProtectRoute } from "./components/Auth/AdminProtectRoute";
 function App() {
   return (
     <>
@@ -12,13 +14,14 @@ function App() {
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
-          path="/dashboard"
+          path="/dashbaord"
           element={
             <ProtectRoute>
               <Dashboard />
-           </ProtectRoute>
+            </ProtectRoute>
           }
         />
+        <Route path="/admin" element={ <AdminProtectRoute> <Admin /> </AdminProtectRoute> } />
         <Route path="/" element={<LadingPage />} />
       </Routes>
     </>
