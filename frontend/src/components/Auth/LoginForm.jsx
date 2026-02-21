@@ -9,10 +9,12 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import api from "@/lib/api/apiCleints";
+import useAuthStore from "@/lib/store/authStore";
 
 export const LoginForm = () => {
   const [formValues, setFoarmValues] = useState({
@@ -23,6 +25,8 @@ export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const { setAuth } = useAuthStore();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFoarmValues({
@@ -32,31 +36,36 @@ export const LoginForm = () => {
   };
   const loginMutaution = useMutation({
     mutationFn: async (Credential) => {
-      const response = await axios.post('http//localhost:2000/users/login', Credential);
-      console.log(response.data)
+      const response = await api.post("/users/login", Credential);
+      console.log(response.data);
       return response.data;
     },
     onSuccess: () => {
-      console.log("successfully login");
+      if (data.token) {
+        const user = data.user;
+        const token = data.token;
+        setAuth(user, token);
+        navigate("/Dashboard");
+      }
     },
     onError: (error) => {
-      console.log("this user not login",error);
+      console.log("this user not login", error);
     },
   });
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
-    if(!formValues.email || !formValues.password) {
-       console.log('all fields are required')
-       return
+    if (!formValues.email || !formValues.password) {
+      console.log("all fields are required");
+      return;
     }
     loginMutaution.mutate({
       email: formValues.email,
-      password: formValues.password
-    })
-  }
+      password: formValues.password,
+    });
+  };
 
   return (
     <Card className={"rounded-md w-full border-border "}>
@@ -100,7 +109,13 @@ export const LoginForm = () => {
             <CardFooter className={"flex justify-center pt-0"}>
               <div className="text-center text-sm">
                 Don't have an account ?
-                <a className="cursor-pointer" onClick={() => navigate("/register")}> Sign up</a>
+                <a
+                  className="cursor-pointer"
+                  onClick={() => navigate("/register")}
+                >
+                  {" "}
+                  Sign up
+                </a>
               </div>
             </CardFooter>
           </div>
