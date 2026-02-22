@@ -13,6 +13,7 @@ import allUsers from './routes/allUsers.js'
 import loginUser from "./routes/userAuth.js";
 import userAuth from './routes/userProfile.js'
 import adminRoute from './routes/admin.js'
+import trackerCreate from './routes/trackerTasks.js'
 
 app.use(express.json());
 
@@ -27,6 +28,7 @@ app.use("/api/users", loginUser);
 app.use('/api/users', userAuth)
 app.use('/api/admin', adminRoute)
 app.use('/api/user', allUsers)
+app.use('/api/trackerTask', trackerCreate )
 
 
 
