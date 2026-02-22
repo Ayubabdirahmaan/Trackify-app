@@ -88,7 +88,7 @@ export const RegistrationFoarm = () => {
         <CardContent>
           <div className="spac-y-6">
             {error && (
-              <p className="text-center text-sm text-primary bg-secondary p-2">
+              <p className="text-center text-sm text-destructive bg-secondary p-2">
                 {error}
               </p>
             )}

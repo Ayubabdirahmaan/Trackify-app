@@ -9,11 +9,12 @@ import {
 } from "../ui/card";
 import { Input } from "../ui/input";
 
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/lib/api/apiCleints";
 import useAuthStore from "@/lib/store/authStore";
+import { MessageErrorUttils } from "@/utils/errorUtils";
 
 export const LoginForm = () => {
   const [formValues, setFoarmValues] = useState({
@@ -44,11 +45,12 @@ export const LoginForm = () => {
        const user = data.user;
        const token = data.token;
        setAuth(user, token)
-        navigate("/dashboard ");
+        navigate("/dashboard");
       }
     },
     onError: (error) => {
       console.log("this user not login", error);
+     setError(MessageErrorUttils(error))
     },
   });
 
@@ -76,6 +78,9 @@ export const LoginForm = () => {
         <form onSubmit={handleSubmit}>
           <CardContent>
             <div className="space-y-2 pt-0">
+              {
+                error && <p className="text-center bg-secondary text-sm p-2 text-destructive">{error}</p>
+              }
               <div className="text-sm font-medium text-left">Email</div>
               <Input
                 type={"email"}
@@ -87,7 +92,7 @@ export const LoginForm = () => {
               />
             </div>
             <div className="spac-y-2 pt-0">
-              <div className="text-sm font-medium text-left">pasword</div>
+              <div className="text-sm font-medium text-left">Password</div>
               <Input
                 type={"password"}
                 name="password"

@@ -12,11 +12,7 @@ export const AdminProtectRoute = ({ children }) => {
   const { data, error, isError, isLoading, isSuccess } = useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
-      const response = await api.get("/admin/dashboard", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get("/admin/dashboard");
 
       if (!response.data) {
         throw new Error("Invalid token");
@@ -52,7 +48,7 @@ if (isError) {
 }
 
 if (user?.role != "user") {
-  return <Navigate to={"/dashbaord"} state={{ from: location }} replace />;
+  return <Navigate to='/login' state={{ from: location }} replace />;
 }
 console.log("userInfo", user);
 

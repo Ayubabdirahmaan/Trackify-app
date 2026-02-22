@@ -13,11 +13,7 @@ export const ProtectRoute = ({ children }) => {
   const { data, error, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
-      const response = await api.get("/users/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get("/users/profile");
 
       if (!response.data) {
         throw new Error("invalid token");
