@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 
-
 const trackerSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
-    amount: {type: String, required: true},
+    amount: { type: String, required: true },
     Category: String,
     status: {
       type: String,
