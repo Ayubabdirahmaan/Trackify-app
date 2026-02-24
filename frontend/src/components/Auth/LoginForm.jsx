@@ -42,15 +42,15 @@ export const LoginForm = () => {
     },
     onSuccess: (data) => {
       if (data.token) {
-       const user = data.user;
-       const token = data.token;
-       setAuth(user, token)
+        const user = data.user;
+        const token = data.token;
+        setAuth(user, token);
         navigate("/dashboard");
       }
     },
     onError: (error) => {
       console.log("this user not login", error);
-     setError(MessageErrorUttils(error))
+      setError(MessageErrorUttils(error));
     },
   });
 
@@ -78,9 +78,11 @@ export const LoginForm = () => {
         <form onSubmit={handleSubmit}>
           <CardContent>
             <div className="space-y-2 pt-0">
-              {
-                error && <p className="text-center bg-secondary text-sm p-2 text-destructive">{error}</p>
-              }
+              {error && (
+                <p className="text-center bg-secondary text-sm p-2 text-destructive">
+                  {error}
+                </p>
+              )}
               <div className="text-sm font-medium text-left">Email</div>
               <Input
                 type={"email"}
@@ -104,7 +106,7 @@ export const LoginForm = () => {
             </div>
 
             <div className="py-4">
-              <Button type="submit" className="text-center">
+              <Button type="submit" className="text-center w-full">
                 login account
               </Button>
             </div>
