@@ -37,15 +37,16 @@ export const LoginForm = () => {
   const loginMutaution = useMutation({
     mutationFn: async (Credential) => {
       const response = await api.post("/users/login", Credential);
-      console.log(response.data);
+      console.log("userInfo", response.data);
       return response.data;
     },
     onSuccess: (data) => {
       if (data.token) {
-        const user = data.user;
-        const token = data.token;
-        setAuth(user, token);
+        const user = data.user
+        const token = data.token
+        setAuth(user, token)
         navigate("/dashboard");
+
       }
     },
     onError: (error) => {

@@ -26,7 +26,7 @@ export const register = async (req, res, next) => {
 
 export const getUsers = async (req, res, next) => {
   try {
-    const user = await User.find().sort({createdAt: -1})
+    const user = await User.find().sort({ createdAt: -1 });
     res.json({ user });
   } catch (err) {
     next(err);
@@ -43,10 +43,10 @@ export const login = async (req, res, next) => {
         message: "invalid email or password",
       });
     }
-
     const token = generateToken(user._id);
-
-    res.json({ token });
+    res.json({
+      token
+    });
   } catch (err) {
     next(err);
   }

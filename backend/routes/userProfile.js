@@ -3,6 +3,6 @@ import { protect } from '../middlewares/AuthMiddleWare.js'
 const router = express.Router()
 
 router.get('/profile' , protect , (req, res) => {
-    res.json(req.user.email)
+    res.json(req.user.name)
 } )
 export default router

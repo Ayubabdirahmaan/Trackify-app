@@ -46,6 +46,9 @@ export const ProtectRoute = ({ children }) => {
   if (isError) {
     return <Navigate to={"/login"} state={{ from: location }} replace />;
   }
+  //  if(!user) {
+  //    return <Navigate to={"/login"} state={{ from: location }} replace />;
+  // }
 
   return children;
 };
