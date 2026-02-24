@@ -1,15 +1,17 @@
+// authStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const useAuthStore = create(
   persist(
-    (set, get) => ({
-      user: null,
+    (set) => ({
+      user: null, // default null
       token: null,
       isAuthenticated: false,
+
       setAuth: (userData, token) =>
         set({
-          user: userData,
+          user: userData, // ✅ hubi object dhameystiran
           token,
           isAuthenticated: true,
         }),
@@ -20,18 +22,16 @@ const useAuthStore = create(
           token: null,
           isAuthenticated: false,
         }),
-
-      getToken: () => get().token,
     }),
     {
-      name: "auth-storage",
+      name: "auth-storage", // key persist
       partialize: (state) => ({
         user: state.user,
         token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );
 
 export default useAuthStore;

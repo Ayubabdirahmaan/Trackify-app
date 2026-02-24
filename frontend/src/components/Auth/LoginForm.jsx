@@ -45,10 +45,7 @@ export const LoginForm = () => {
     },
     onSuccess: (data) => {
       if (data.token) {
-        console.log("data", data.token)
-        const user = data.user;
-        const token = data.token;
-        setAuth(user, token);
+        setAuth(data.user, data.token);
         navigate("/dashboard");
       }
     },

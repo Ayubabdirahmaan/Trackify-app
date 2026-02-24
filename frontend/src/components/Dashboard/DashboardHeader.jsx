@@ -1,11 +1,23 @@
 import useAuthStore from "@/lib/store/authStore";
-import { Banknote } from "lucide-react";
+import { Banknote, LucideLogOut } from "lucide-react";
 import React from "react";
+import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const DashboardHeader = () => {
-
   const { user, clearAuth } = useAuthStore();
 
+  const navigate = useNavigate();
+  const queryCleint = useQueryClient();
+
+  const handleLogout = () => {
+    if (confirm("are you sure you want to logout ")) {
+      clearAuth();
+      queryCleint.clear();
+      navigate("/login", { replace: true });
+    }
+  };
   return (
     <header className="bg-card border-b border-border shadow-sm">
       <div className="w-full px-4 py-4 flex items-center justify-between">
@@ -17,14 +29,21 @@ export const DashboardHeader = () => {
             Finance Tracker{" "}
           </h1>
         </div>
-
-        <div className="flex items-center ga-4">
-          <span className="text-sm text-muted-foreground">Welcome</span>
-          <span className="font-medium text-foreground">
-            <span>{user?.name}</span>
+        <div className="flex items-center ga-4 ">
+          <span className="text-sm text-muted-foreground gap-3 mr-3">
+            Welcome
           </span>
+          <span className="font-medium text-foreground space-x-4 mr-3">
+            <span>{user?.name || 'User'}</span>
+          </span>
+          <Button
+            className={"rounded-full"}
+            variant="outline"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </div>
-        {console.log(user)}
       </div>
     </header>
   );
