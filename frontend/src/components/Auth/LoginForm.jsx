@@ -6,100 +6,100 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "@/components/ui/card";
 import { Input } from "../ui/input";
-
-import { Navigate, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+
+import { useNavigate } from "react-router";
+import { Loader } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import api from "@/lib/api/apiCleints";
+
 import useAuthStore from "@/lib/store/authStore";
+import api from "@/lib/api/apiCleints";
 import { MessageErrorUttils } from "@/utils/errorUtils";
 
 export const LoginForm = () => {
-  const [formValues, setFoarmValues] = useState({
-    email: "",
-    password: "",
-  });
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setAuth } = useAuthStore();
 
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFoarmValues({
+    setFormValues({
       ...formValues,
       [name]: value,
     });
   };
-  const loginMutaution = useMutation({
-    mutationFn: async (Credential) => {
-      const response = await api.post("/users/login", Credential);
-      console.log("userInfo", response.data);
+
+  const loginMutation = useMutation({
+    mutationFn: async (Credentials) => {
+      const response = await api.post("/users/login", Credentials);
       return response.data;
     },
     onSuccess: (data) => {
       if (data.token) {
-        const user = data.user
-        const token = data.token
-        setAuth(user, token)
+        console.log("data", data.token)
+        const user = data.user;
+        const token = data.token;
+        setAuth(user, token);
         navigate("/dashboard");
-
       }
     },
     onError: (error) => {
-      console.log("this user not login", error);
+      console.log(error);
       setError(MessageErrorUttils(error));
     },
   });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
 
     if (!formValues.email || !formValues.password) {
-      console.log("all fields are required");
+      setError("All fields are required ");
       return;
     }
-    loginMutaution.mutate({
+    loginMutation.mutate({
       email: formValues.email,
       password: formValues.password,
     });
   };
-
   return (
-    <Card className={"rounded-md w-full border-border "}>
-      <CardHeader className={"space-y-1 pb-4"}>
-        <CardTitle className={"text-xl text-center"}>signin</CardTitle>
-        <CardDescription className={"text-center"}>
-          <p>Enter your credentails to access your accont</p>
+    <Card className="w-full border-border">
+      <CardHeader className="space-y-1 pb-4">
+        <CardTitle className="text-xl text-center">Signin</CardTitle>
+        <CardDescription className="text-center">
+          Enter your credentails to access your accont
         </CardDescription>
         <form onSubmit={handleSubmit}>
           <CardContent>
             <div className="space-y-2 pt-0">
               {error && (
-                <p className="text-center bg-secondary text-sm p-2 text-destructive">
+                <div className="p-3 bg-destructive/10 text-destructive text-sm rounded-md">
                   {error}
-                </p>
+                </div>
               )}
-              <div className="text-sm font-medium text-left">Email</div>
+
+              <div className="text-sm font-medium text-left">Eamil</div>
               <Input
-                type={"email"}
                 name="email"
-                placeholder="eamil@gmail.com"
+                placeholder="email@gmail.com"
                 required
                 value={formValues.email}
                 onChange={handleInputChange}
               />
             </div>
-            <div className="spac-y-2 pt-0">
-              <div className="text-sm font-medium text-left">Password</div>
+            <div className="space-y-2 pt-0">
+              <div className="text-sm font-medium text-left">password</div>
               <Input
-                type={"password"}
                 name="password"
-                placeholder="**********"
+                placeholder="******"
                 required
                 value={formValues.password}
                 onChange={handleInputChange}
@@ -107,20 +107,27 @@ export const LoginForm = () => {
             </div>
 
             <div className="py-4">
-              <Button type="submit" className="text-center w-full">
-                login account
+              <Button type="submit" className={"w-full cursor-pointer"}>
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    {" "}
+                    <Loader /> login account..{" "}
+                  </span>
+                ) : (
+                  "Loggin Account"
+                )}
               </Button>
             </div>
           </CardContent>
           <div>
             <CardFooter className={"flex justify-center pt-0"}>
               <div className="text-center text-sm">
-                Don't have an account ?
+                {" "}
+                Don't have an account ?{" "}
                 <a
-                  className="cursor-pointer"
                   onClick={() => navigate("/register")}
+                  className="text-primary hover:underline cursor-pointer"
                 >
-                  {" "}
                   Sign up
                 </a>
               </div>
