@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Card } from "../ui/card";
 
-export const DashboardContent = ({ onCreateTask,showCreateForm}) => {
+export const DashboardContent = ({task, onCreateTask,showCreateForm}) => {
   return (
     <div>
       <div className="flex justify-between flex-wrap">
@@ -59,8 +59,9 @@ export const DashboardContent = ({ onCreateTask,showCreateForm}) => {
           <span className="ml-4 font-bold text-2xl">${0}</span>
         </Card>
       </div>
-
-      <Table className={"mt-10"}>
+<div>
+    {
+        task?.length > 0 ? (<Table className={"mt-10"}>
         {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
         <TableHeader>
           <TableRow>
@@ -81,7 +82,11 @@ export const DashboardContent = ({ onCreateTask,showCreateForm}) => {
             <TableCell className="text-right">$250.00</TableCell>
           </TableRow>
         </TableBody>
-      </Table>
+      </Table>) : (
+        <p>no Task</p>
+      )
+    }
+</div>
     </div>
   );
 };
