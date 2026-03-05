@@ -17,6 +17,9 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import { Loader } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/lib/api/apiCleints";
+import { toast } from "sonner";
 
 export const TransactionForm = ({
   task,
@@ -53,6 +56,32 @@ export const TransactionForm = ({
     { value: "expensive", label: "expensive" },
     { value: "income", label: "income" },
   ];
+
+  const createTransportionMutaion = useMutation({
+    mutationFn: async (taskData) => {
+      const response = await api.post('/createTask/', taskData)
+      return response.data
+    },
+    onSuccess : (data) => {
+      onOpenChange?.(false)
+     setFoarmValue({
+        title: "",
+        description: "",
+        status: "expensive",
+        dueDate : ""
+      })
+    console.log('task create successfully', data)
+    toast.success('task created successfully')
+    },
+    onError : (error) => {
+      console.log('error created task:', error)
+      toast.error('Error created task', error)
+    }
+  }
+  
+)
+
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={"sm:mx-w-[500px]"}>
@@ -88,15 +117,15 @@ export const TransactionForm = ({
             />
           </div>
           <div className="space-y-2">
-            <Label>Amount *</Label>
+            <Label>Category *</Label>
             <input
               id="amount"
               className="w-full border p-1"
-              name="amount"
-              type="number"
-              value={formValues.amount}
+              name="Category"
+              type="text"
+              value={formValues.Category}
               onChange={handleInputChange}
-              placeholder="e.g 50"
+              placeholder="e.g car shopping"
               required
             />
           </div>
@@ -118,26 +147,14 @@ export const TransactionForm = ({
               </SelectContent>
             </Select>
           </div>
+         
           <div className="space-y-2">
-            <Label>Amount *</Label>
-            <input
-              id="category"
-              className="w-full border p-1"
-              name="category"
-              type="text"
-              value={formValues.Category}
-              onChange={handleInputChange}
-              placeholder="e.g 50"
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Due Date *</Label>
+            <Label>Due Date</Label>
             <input
               id="dueDate"
               className="w-full border p-1"
               name="Duedate"
-              type="Date"
+              type="date"
               value={formValues.dueDate}
               onChange={handleInputChange}
               placeholder="e.g 50"
