@@ -83,7 +83,7 @@ export const DashboardContent = ({task, onCreateTask,showCreateForm}) => {
           </TableRow>
         </TableBody>
       </Table>) : (
-        <p>no Task</p>
+        <p>no Task or Transaction</p>
       )
     }
 </div>
