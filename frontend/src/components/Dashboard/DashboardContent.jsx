@@ -60,32 +60,6 @@ export const DashboardContent = ({task, onCreateTask,showCreateForm}) => {
         </Card>
       </div>
 <div>
-    {
-        task?.length > 0 ? (<Table className={"mt-10"}>
-        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Date</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Action</TableHead>
-            <TableHead className="text-right"></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>) : (
-        <p>no Task or Transaction</p>
-      )
-    }
 </div>
     </div>
   );
