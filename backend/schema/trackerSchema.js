@@ -4,5 +4,5 @@ export const trackerValidationSchema = z.object({
     amount: z.string().min(1, 'Amount must be greater than 0.'),
     Category: z.string().optional(),
     status: z.enum(['expensive', 'income']).optional(),
-    dueDate : z.string().optional()
+    // dueDate : z.string().optional()
 })

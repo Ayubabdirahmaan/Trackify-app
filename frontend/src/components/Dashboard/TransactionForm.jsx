@@ -20,6 +20,7 @@ import { Loader } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/lib/api/apiCleints";
 import { toast } from "sonner";
+import { Input } from "../ui/input";
 
 export const TransactionForm = ({
   task,
@@ -34,6 +35,7 @@ export const TransactionForm = ({
     amount: "",
     dueDate: "",
   });
+    const [validationError, setValidationError] = useState(null);
   const handleStatusChange = (value) => {
     setFoarmValue({
       ...formValues,
@@ -59,7 +61,7 @@ export const TransactionForm = ({
 
   const createTransportionMutaion = useMutation({
     mutationFn: async (taskData) => {
-      const response = await api.post('/createTask/', taskData)
+      const response = await api.post('/trackerTask/createTask/', taskData)
       return response.data
     },
     onSuccess : (data) => {
@@ -81,6 +83,26 @@ export const TransactionForm = ({
   
 )
 
+  const handleCreateTask = (e) => {
+    e.preventDefault()
+
+        if(!formValues.title) {
+          setValidationError('Title is required')
+          return
+        }
+         const taskData = {
+      title: formValues.title.trim(),
+      amount: formValues.amount.trim(),
+      Category: formValues.Category.trim(),
+      status: formValues.status,
+      dueDate: formValues.dueDate
+        ? new Date(formValues.dueDate).toISOString()
+        : null,
+    };
+
+     createTransportionMutaion.mutate(taskData)
+  }
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -89,10 +111,10 @@ export const TransactionForm = ({
           <DialogTitle>Create New Transaction</DialogTitle>
           <DialogDescription>Fill in details below the form</DialogDescription>
         </DialogHeader>
-        <form className="space-y-6">
+        <form onSubmit={handleCreateTask} className="space-y-6">
           <div className="space-y-2">
             <Label>Title *</Label>
-            <input
+            <Input
               id="title"
               className="w-full border p-1"
               name="title"
@@ -105,7 +127,7 @@ export const TransactionForm = ({
           </div>
           <div className="space-y-2">
             <Label>Amount *</Label>
-            <input
+            <Input
               id="amount"
               className="w-full border p-1"
               name="amount"
@@ -118,7 +140,7 @@ export const TransactionForm = ({
           </div>
           <div className="space-y-2">
             <Label>Category *</Label>
-            <input
+            <Input
               id="amount"
               className="w-full border p-1"
               name="Category"
@@ -147,18 +169,15 @@ export const TransactionForm = ({
               </SelectContent>
             </Select>
           </div>
-         
           <div className="space-y-2">
             <Label>Due Date</Label>
-            <input
+            <Input
               id="dueDate"
               className="w-full border p-1"
               name="Duedate"
               type="date"
               value={formValues.dueDate}
               onChange={handleInputChange}
-              placeholder="e.g 50"
-              required
             />
           </div>
           <DialogFooter className={"flex justify-end space-x-2"}>
